@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://leynard123:leynard123@commithub.spfjxvh.mongodb.net/?retryWrites=true&w=majority&appName=commithub"
+  "mongoURI": "mongodb+srv://leynard123:leynard123@commithub.spfjxvh.mongodb.net/?retryWrites=true&w=majority&appName=commithub",
+  "jwtSecret": "mysecrettoken"
 }

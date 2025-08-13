@@ -3,11 +3,14 @@ import { check, validationResult } from "express-validator";
 import User from "../../models/User.js";
 import gravatar from "gravatar";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import config from "config";
+
 const router = express.Router();
 
 // @route POST api/users
 // @desc Register User
-// @access Public
+// @access Private
 
 router.post(
   "/",
@@ -32,15 +35,17 @@ router.post(
       let user = await User.findOne({ email });
       //see if user exist
       if (user) {
-        res.status(400).json({ errors: [{ msg: "User already exists" }] });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "User already exists" }] });
       }
 
       // get user gravatar or avatar
-      const avatar = gravatar.url(email, {
-        s: "200",
-        r: "pg",
-        d: "mm",
-      });
+      const avatar = gravatar.url(
+        email,
+        { s: "200", r: "pg", d: "retro" },
+        true
+      );
 
       // Create an instance for user
       user = new User({
@@ -58,8 +63,25 @@ router.post(
       await user.save();
 
       // return jsonwebtoken
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
 
-      res.send("User registered");
+      jwt.sign(
+        payload,
+        config.get("jwtSecret"),
+
+        // how long the token will be valid
+        { expiresIn: 360000 },
+        (err, token) => {
+          //if error throw new error
+          if (err) throw err;
+          // if not then response with token object
+          res.json({ token });
+        }
+      );
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Server Error");

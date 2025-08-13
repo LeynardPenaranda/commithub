@@ -1,0 +1,25 @@
+import jwt from "jsonwebtoken";
+import config from "config";
+
+export default (req, res, next) => {
+  // Get the token from the header
+
+  const token = req.header("x-auth-token");
+
+  // Check if no token
+  if (!token) {
+    return res.status(401).json({ msg: "No token, authorization denied" });
+  }
+
+  // Verify the token if there is one
+
+  try {
+    // Decoded the encrypted value of the token
+    const decoded = jwt.verify(token, config.get("jwtSecret"));
+
+    req.user = decoded.user;
+    next();
+  } catch (error) {
+    res.status(401).json({ msg: "Token is not valid" });
+  }
+};
