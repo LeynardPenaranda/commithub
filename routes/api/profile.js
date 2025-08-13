@@ -50,6 +50,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
+    /// This field build an object start /////
     const {
       company,
       website,
@@ -61,6 +62,7 @@ router.post(
       instagram,
       facebook,
       twitter,
+      youtube,
       linkedin,
     } = req.body;
 
@@ -88,13 +90,17 @@ router.post(
     if (facebook) profileFields.social.facebook = facebook;
     if (twitter) profileFields.social.twitter = twitter;
     if (linkedin) profileFields.social.linkedin = linkedin;
+    if (youtube) profileFields.social.youtube = youtube;
+
+    //// End /////
 
     try {
+      // Check if profile exists
       let profile = await Profile.findOne({ user: req.user.id });
 
       // if a profile already exist
       if (profile) {
-        // Update the profile
+        // Update the profile with profileField object
         profile = await Profile.findOneAndUpdate(
           { user: req.user.id },
           { $set: profileFields },
@@ -117,4 +123,42 @@ router.post(
   }
 );
 
+// @route GET api/profile
+// @desc Get all profiles
+// @access Public
+
+router.get("/", async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    res.json(profiles);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route GET api/profile/user/:user_id
+// @desc Get profile by user Id
+// @access Public
+
+router.get("/user/:user_id", async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      user: req.params.user_id,
+    }).populate("user", ["name", "avatar"]);
+
+    if (!profile) {
+      return res.status(400).json({ msg: "Profile not found" });
+    }
+
+    res.json(profile);
+  } catch (error) {
+    console.error(error.message);
+
+    if (error.kind === "ObjectId") {
+      return res.status(400).json({ msg: "Profile not found" });
+    }
+    res.status(500).send("Server Error");
+  }
+});
 export default router;
