@@ -42,4 +42,76 @@ router.post(
   }
 );
 
+// @route GET api/posts
+// @desc Get all posts
+// @access Private
+router.get("/", auth, async (req, res) => {
+  try {
+    const posts = await Post.find().sort({ date: -1 });
+
+    if (!posts || posts.length === 0) {
+      return res.status(404).json({ msg: "No posts found" });
+    }
+
+    res.json(posts);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+// @route GET api/posts/:id
+// @desc Get user posts
+// @access Private
+
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (!post || post.length === 0) {
+      return res.status(404).json({ msg: "No post found for this user" });
+    }
+
+    res.json(post);
+  } catch (error) {
+    console.error(error.message);
+
+    if (error.kind === "ObjectId") {
+      return res.status(404).json({ msg: "Post not Found" });
+    }
+
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+// @route DELETE api/posts/:id
+// @desc Delete a post
+// @access Private
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    // Check if the user have a post
+    if (!post || post.length === 0) {
+      return res.status(404).json({ msg: "Post not found" });
+    }
+    // Check the user
+    if (post.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "User not authorized" });
+    }
+
+    // delete the or remove the post
+    await post.deleteOne();
+
+    // return the response
+    res.json({ msg: "Post removed successfully" });
+  } catch (error) {
+    console.error(error.message);
+    if (error.kind === "ObjectId") {
+      return res.status(404).json({ msg: "Post not found" });
+    }
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
 export default router;
