@@ -25,8 +25,12 @@ const Header = () => {
             </Link>
           </div>
           <div className="">
-            <Button variant="ghost">Sign In</Button>
-            <Button variant="outline">Sign Up</Button>
+            <Button variant="ghost" asChild>
+              <Link to="/login">Sign In</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link to="/register">Sign Up</Link>
+            </Button>
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ const AppLayout = () => {
       <div className="sticky bg-background top-0 z-50">
         <Header />
       </div>
-      <main className="mt-20">
+      <main className="mt-20 mb-20">
         <Outlet />
       </main>
     </div>

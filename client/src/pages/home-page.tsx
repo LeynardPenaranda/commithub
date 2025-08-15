@@ -1,6 +1,7 @@
 import CarouselContainer from "@/components/logo-carousel-container";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -19,8 +20,8 @@ const Home = () => {
             placeholder="Enter your Email"
             className="md:pr-[10rem] w-full shadow-[0_2px_15px_rgba(255,255,255,0.8)]"
           />
-          <Button className="sm:absolute right-0 top-0 ">
-            Sign Up to Connect
+          <Button className="sm:absolute right-0 top-0 " asChild>
+            <Link to="/register">Sign Up to Connect</Link>
           </Button>
         </div>
       </div>

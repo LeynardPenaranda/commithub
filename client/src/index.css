@@ -139,3 +139,8 @@
     rgba(0, 0, 0, 1)
   );
 }
+
+::selection {
+  background: #000000; /* highlight background color */
+  color: #ffffff; /* text color while selected */
+}
