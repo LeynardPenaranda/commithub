@@ -3,9 +3,9 @@ import { Outlet } from "react-router-dom";
 
 const AppLayout = () => {
   return (
-    <div>
+    <div className="grid grid-rows-[auto_1fr]">
       <Header />
-      <main>
+      <main className="mt-20">
         <Outlet />
       </main>
     </div>
