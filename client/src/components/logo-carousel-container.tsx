@@ -47,7 +47,7 @@ const CarouselContainer = () => {
   ];
 
   return (
-    <div className=" absolute SideShadow h-[25rem] place-content-center">
+    <div className="absolute SideShadow h-full place-content-center">
       {/* Upper Logo Carousel */}
       <div className="flex ">
         <motion.div
@@ -69,7 +69,7 @@ const CarouselContainer = () => {
               key={index}
               src={image.src}
               alt={`Logo ${index + 1}`}
-              className="w-24 h-24 mr-30 drop-shadow-[0_2px_15px_rgba(255,255,255,0.8)]"
+              className="w-10 sm:w-15 md:w-24  h-10 sm:h-15 md:h-24 mr-10 sm:mr-15 md:mr-30 drop-shadow-[0_2px_15px_rgba(255,255,255,0.8)]"
             />
           ))}
         </motion.div>
@@ -92,7 +92,7 @@ const CarouselContainer = () => {
               key={index}
               src={image.src}
               alt={`Logo ${index + 1}`}
-              className="w-24 h-24 mr-30 drop-shadow-[0_2px_15px_rgba(255,255,255,0.8)]"
+              className="w-10 sm:w-15 md:w-24  h-10 sm:h-15 md:h-24 mr-10 sm:mr-15 md:mr-30 drop-shadow-[0_2px_15px_rgba(255,255,255,0.8)]"
             />
           ))}
         </motion.div>
@@ -119,7 +119,7 @@ const CarouselContainer = () => {
               key={index}
               src={image.src}
               alt={`Logo ${index + 1}`}
-              className="w-24 h-24 mr-30 drop-shadow-[0_2px_15px_rgba(255,255,255,0.8)]"
+              className="w-10 sm:w-15 md:w-24  h-10 sm:h-15 md:h-24 mr-10 sm:mr-15 md:mr-30 drop-shadow-[0_2px_15px_rgba(255,255,255,0.8)]"
             />
           ))}
         </motion.div>
@@ -142,7 +142,7 @@ const CarouselContainer = () => {
               key={index}
               src={image.src}
               alt={`Logo ${index + 1}`}
-              className="w-24 h-24 mr-30 drop-shadow-[0_2px_15px_rgba(255,255,255,0.8)]"
+              className="w-10 sm:w-15 md:w-24  h-10 sm:h-15 md:h-24 mr-10 sm:mr-15 md:mr-30 drop-shadow-[0_2px_15px_rgba(255,255,255,0.8)]"
             />
           ))}
         </motion.div>

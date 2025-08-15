@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 
 const Home = () => {
   return (
-    <div className="w-full h-[80vh] flex flex-col items-center justify-center">
+    <div className="w-full h-screen flex flex-col items-center justify-center">
       <div className="text-wrap w-full sm:w-[50rem] flex flex-col gap-5 items-center justify-center">
         <h1 className="text-5xl text-center antialiased font-medium px-5">
           Connect, Share, Inspire, Build, Grow Together
@@ -13,18 +13,18 @@ const Home = () => {
           Commithub is a collaborative hub where developers connect, share
           projects, and grow together.
         </p>
-        <div className="relative w-[60%]">
+        <div className="relative w-[90%] sm:w-[60%] mx-5 gap-2 flex flex-col items-center justify-center">
           <Input
             type="text"
             placeholder="Enter your Email"
-            className="pr-[10rem] w-full shadow-[0_2px_15px_rgba(255,255,255,0.8)]"
+            className="md:pr-[10rem] w-full shadow-[0_2px_15px_rgba(255,255,255,0.8)]"
           />
-          <Button className="absolute right-0 top-0 h-full">
+          <Button className="sm:absolute right-0 top-0 ">
             Sign Up to Connect
           </Button>
         </div>
       </div>
-      <div className="mt-10 w-full items-center justify-center h-[25rem] overflow-x-hidden  relative SideShadowLeft ">
+      <div className="mt-10 w-full items-center justify-center h-[25rem] overflow-x-hidden  relative SideShadowLeft">
         <CarouselContainer />
       </div>
     </div>
