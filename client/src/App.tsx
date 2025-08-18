@@ -4,8 +4,6 @@ import AppLayout from "./pages/layout/App-layout";
 import Developer from "./pages/developer-page";
 import Login from "./pages/login-page";
 import Register from "./pages/register-page";
-import { Provider } from "react-redux";
-import store from "./store";
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
@@ -31,11 +29,7 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return (
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

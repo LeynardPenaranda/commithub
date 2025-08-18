@@ -1,29 +1,78 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { UserPlus } from "lucide-react";
+import { Eye, EyeClosed, UserPlus } from "lucide-react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
+import { setAlert } from "@/reducers/alertSlice";
+import { fetchRegister } from "@/reducers/authSlice";
+import { v4 as uuidv4 } from "uuid";
+
+import type { AppDispatch, RootState } from "@/store";
+import AlertMessage from "@/components/alert-message";
 
 const Register = () => {
+  const [passwordEye, setPasswordEye] = useState(false);
+  const [confirmPasswordEye, setConfirmPasswordEye] = useState(false);
+
+  const registerInput = useSelector(
+    (state: RootState) => state.other.registerInput
+  );
+
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
+    email: registerInput || "",
     password: "",
     confirmPassword: "",
   });
 
   const { name, email, password, confirmPassword } = formData;
+  const dispatch = useDispatch<AppDispatch>();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // Check password length
+
+    if (password.length <= 10) {
+      const alertObject = {
+        id: uuidv4(),
+        msg: "Passwords is too short. Please use 11 characters long password.",
+        alertType: "error",
+      };
+      dispatch(setAlert(alertObject));
+      setFormData({
+        name: "",
+        email: registerInput || "",
+        password: "",
+        confirmPassword: "",
+      });
+    }
+
     // Check if the password matches
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match. Please try again.");
-      return;
+      const alertObject = {
+        id: uuidv4(),
+        msg: "Passwords do not match. Please try again.",
+        alertType: "error",
+      };
+      dispatch(setAlert(alertObject));
+      setFormData({
+        name: "",
+        email: registerInput || "",
+        password: "",
+        confirmPassword: "",
+      });
     }
+    // If success here
+    const registerObj = {
+      name,
+      email,
+      password,
+    };
+
+    dispatch(fetchRegister(registerObj));
   };
 
   return (
@@ -35,7 +84,7 @@ const Register = () => {
           Create your account to join our community
         </p>
       </span>
-
+      <AlertMessage />
       <Card className="w-full max-w-md p-6 bg-background shadow-[0_2px_15px_rgba(255,255,255,0.8)]">
         <form onSubmit={(e) => onSubmit(e)} className="space-y-5">
           <span className="text-sm text-center">
@@ -70,28 +119,52 @@ const Register = () => {
             />
           </div>
 
-          <div>
+          <div className="relative">
             <Input
-              type="password"
+              type={passwordEye ? "text" : "password"}
               placeholder="Password"
               name="password"
               value={password}
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })
               }
+              className="pr-[2rem]"
               required
             />
+            {passwordEye ? (
+              <Eye
+                onClick={() => setPasswordEye((e) => !e)}
+                className="cursor-pointer absolute top-2 right-2 w-4 h-4"
+              />
+            ) : (
+              <EyeClosed
+                onClick={() => setPasswordEye((e) => !e)}
+                className="cursor-pointer absolute top-2 right-2 w-4 h-4"
+              />
+            )}
           </div>
-          <div>
+          <div className="relative">
             <Input
-              type="password"
+              type={confirmPasswordEye ? "text" : "password"}
               placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(e) =>
                 setFormData({ ...formData, confirmPassword: e.target.value })
               }
+              className="pr-[2rem]"
               required
             />
+            {confirmPasswordEye ? (
+              <Eye
+                onClick={() => setConfirmPasswordEye((e) => !e)}
+                className="cursor-pointer absolute top-2 right-2 w-4 h-4"
+              />
+            ) : (
+              <EyeClosed
+                onClick={() => setConfirmPasswordEye((e) => !e)}
+                className="cursor-pointer absolute top-2 right-2 w-4 h-4"
+              />
+            )}
           </div>
 
           <div>
